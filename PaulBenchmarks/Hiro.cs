@@ -5,7 +5,8 @@ using PaulBenchmark.PaulModel;
 
 namespace PaulBenchmark.PaulBenchmarks
 {
-	public class Hiro : IBenchmark
+	// disabled as throws exceptions
+	internal class Hiro : IBenchmark
 	{
 		private readonly IMicroContainer container;
 
