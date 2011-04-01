@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using Castle.Core.Internal;
 
 namespace PaulBenchmark
 {
@@ -50,20 +53,14 @@ namespace PaulBenchmark
 
 		protected static IBenchmark[] GetTestSubjects()
 		{
-			return new IBenchmark[]
-			       	{
-			       		new CustomContainer(),
-			       		new Windsor(),
-			       		new Windsor_delegates(),
-			       		new Autofac(),
-			       		new Autofac_delegates(),
-			       		new Unity(),
-			       		new StructureMap(),
-			       		new Linfu(),
-			       		new Funq(),
-			       		new Ninject(),
-			       		new Hiro()
-			       	};
+			return Assembly.GetExecutingAssembly()
+				.GetExportedTypes()
+				.Where(t => t.IsClass)
+				.Where(t => t.IsAbstract == false)
+				.Where(t => t.Is<IBenchmark>())
+				.Select(Activator.CreateInstance)
+				.Cast<IBenchmark>()
+				.ToArray();
 		}
 
 		private static bool ShouldRun(Regex filter, IBenchmark benchmark)

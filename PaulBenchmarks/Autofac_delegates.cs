@@ -1,7 +1,8 @@
 ﻿using System;
 using Autofac;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Autofac_delegates : IBenchmark
 	{

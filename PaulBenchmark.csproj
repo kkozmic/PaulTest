@@ -96,31 +96,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Autofac.cs" />
-    <Compile Include="Autofac_delegates.cs" />
+    <Compile Include="PaulBenchmarks\Autofac.cs" />
+    <Compile Include="PaulBenchmarks\Autofac_delegates.cs" />
     <Compile Include="BenchmarkEngine.cs" />
     <Compile Include="BenchmarkFactory.cs" />
-    <Compile Include="HiroTests.cs" />
+    <Compile Include="PaulBenchmarks\Hiro.cs" />
     <Compile Include="MemoryBenchmarkEngine.cs" />
     <Compile Include="PerformanceBenchmarkEngine.cs" />
-    <Compile Include="Bullet.cs" />
-    <Compile Include="CustomContainer.cs" />
-    <Compile Include="Funq.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Gun.cs" />
+    <Compile Include="PaulModel\Bullet.cs" />
+    <Compile Include="PaulBenchmarks\CustomContainer.cs" />
+    <Compile Include="PaulBenchmarks\Funq.cs" />
+    <Compile Include="PaulModel\Game.cs" />
+    <Compile Include="PaulModel\Gun.cs" />
     <Compile Include="IBenchmark.cs" />
-    <Compile Include="Linfu.cs" />
+    <Compile Include="PaulBenchmarks\Linfu.cs" />
     <Compile Include="Mode.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="PaulModel\Player.cs" />
     <Compile Include="ProfilingMode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterNinjectModule.cs" />
-    <Compile Include="StructureMap.cs" />
-    <Compile Include="Ninject.cs" />
-    <Compile Include="Unity.cs" />
-    <Compile Include="Windsor.cs" />
-    <Compile Include="Windsor_delegates.cs" />
+    <Compile Include="PaulBenchmarks\RegisterNinjectModule.cs" />
+    <Compile Include="PaulBenchmarks\StructureMap.cs" />
+    <Compile Include="PaulBenchmarks\Ninject.cs" />
+    <Compile Include="PaulBenchmarks\Unity.cs" />
+    <Compile Include="PaulBenchmarks\Windsor.cs" />
+    <Compile Include="PaulBenchmarks\Windsor_delegates.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

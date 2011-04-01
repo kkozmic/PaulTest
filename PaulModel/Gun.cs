@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulModel
 {
 	public class Gun
 	{

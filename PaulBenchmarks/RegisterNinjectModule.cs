@@ -1,8 +1,9 @@
 ﻿using System;
 using Ninject;
 using Ninject.Modules;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class RegisterNinjectModule : NinjectModule
 	{

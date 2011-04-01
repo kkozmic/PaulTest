@@ -1,6 +1,7 @@
-﻿using StructureMap;
+﻿using PaulBenchmark.PaulModel;
+using StructureMap;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class StructureMap : IBenchmark
 	{

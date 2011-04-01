@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Unity : IBenchmark
 	{

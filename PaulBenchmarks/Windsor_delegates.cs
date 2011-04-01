@@ -2,8 +2,9 @@
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Windsor_delegates : IBenchmark
 	{

@@ -1,4 +1,6 @@
-﻿namespace PaulBenchmark
+﻿using PaulBenchmark.PaulModel;
+
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class CustomContainer : IBenchmark
 	{

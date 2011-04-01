@@ -1,6 +1,7 @@
 ﻿using Ninject;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Ninject : IBenchmark
 	{

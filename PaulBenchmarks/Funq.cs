@@ -1,6 +1,7 @@
 ﻿using Funq;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Funq : IBenchmark
 	{

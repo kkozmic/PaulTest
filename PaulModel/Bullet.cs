@@ -1,4 +1,4 @@
-﻿namespace PaulBenchmark
+﻿namespace PaulBenchmark.PaulModel
 {
 	public class Bullet
 	{

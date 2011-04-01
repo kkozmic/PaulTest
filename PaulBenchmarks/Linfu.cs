@@ -1,8 +1,9 @@
 ﻿using System;
 using LinFu.IoC;
 using LinFu.IoC.Configuration;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Linfu : IBenchmark
 	{

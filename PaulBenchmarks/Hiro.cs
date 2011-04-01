@@ -1,8 +1,9 @@
 using System;
 using Hiro;
 using Hiro.Containers;
+using PaulBenchmark.PaulModel;
 
-namespace PaulBenchmark
+namespace PaulBenchmark.PaulBenchmarks
 {
 	public class Hiro : IBenchmark
 	{
