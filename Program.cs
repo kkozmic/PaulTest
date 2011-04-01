@@ -17,13 +17,13 @@ namespace PaulBenchmark
 						"r"
 					};
 #else
-			if(args == null || args.Length==0)
+			if (args == null || args.Length == 0)
 			{
 				ShowHelp();
 				return;
 			}
 #endif
-			using(var benchmark = new BenchmarkFactory(args).Create())
+			using (var benchmark = new BenchmarkFactory(args).Create())
 			{
 				benchmark.Run();
 			}
@@ -31,7 +31,7 @@ namespace PaulBenchmark
 
 		private static void ShowHelp()
 		{
-			using(var reader = new StreamReader(typeof (Program).Assembly.GetManifestResourceStream("PaulBenchmark.help.txt")))
+			using (var reader = new StreamReader(typeof (Program).Assembly.GetManifestResourceStream("PaulBenchmark.help.txt")))
 			{
 				Console.WriteLine(reader.ReadToEnd());
 			}

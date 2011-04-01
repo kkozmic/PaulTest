@@ -2,7 +2,7 @@
 
 namespace PaulBenchmark
 {
-	public class Ninject:IPaulTest
+	public class Ninject : IBenchmark
 	{
 		private readonly StandardKernel kernel;
 
@@ -14,6 +14,12 @@ namespace PaulBenchmark
 		public Player ResolvePlayer()
 		{
 			return kernel.TryGet<Player>();
+		}
+
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
 		}
 	}
 }

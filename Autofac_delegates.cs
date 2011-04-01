@@ -3,7 +3,7 @@ using Autofac;
 
 namespace PaulBenchmark
 {
-	public class Autofac_delegates : IPaulTest
+	public class Autofac_delegates : IBenchmark
 	{
 		private readonly IContainer container;
 
@@ -18,13 +18,15 @@ namespace PaulBenchmark
 			container = builder.Build();
 		}
 
-		#region IPaulTest Members
-
 		public Player ResolvePlayer()
 		{
 			return container.Resolve<Player>();
 		}
 
-		#endregion
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
 	}
 }

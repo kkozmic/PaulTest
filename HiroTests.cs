@@ -4,7 +4,7 @@ using Hiro.Containers;
 
 namespace PaulBenchmark
 {
-	public class Hiro: IPaulTest
+	public class Hiro : IBenchmark
 	{
 		private readonly IMicroContainer container;
 
@@ -24,6 +24,11 @@ namespace PaulBenchmark
 		{
 			return container.GetInstance<Player>();
 		}
-	}
 
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
+	}
 }

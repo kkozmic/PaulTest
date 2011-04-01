@@ -1,9 +1,8 @@
-﻿using System;
-using Funq;
+﻿using Funq;
 
 namespace PaulBenchmark
 {
-	public class Funq : IPaulTest
+	public class Funq : IBenchmark
 	{
 		private readonly Container container;
 
@@ -16,13 +15,15 @@ namespace PaulBenchmark
 			container.Register(c => new Bullet(c.Resolve<Game>())).ReusedWithin(ReuseScope.None);
 		}
 
-		#region IPaulTest Members
-
 		public Player ResolvePlayer()
 		{
 			return container.Resolve<Player>();
 		}
 
-		#endregion
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
 	}
 }

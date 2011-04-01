@@ -1,17 +1,13 @@
 ﻿namespace PaulBenchmark
 {
-	public class CustomContainer : IPaulTest
+	public class CustomContainer : IBenchmark
 	{
 		private readonly Game game = new Game();
 
-		#region IPaulTest Members
-
-		public Player ResolvePlayer()
+		public Bullet ResolveBullet()
 		{
-			return new Player(game, ResolveGun());
+			return new Bullet(game);
 		}
-
-		#endregion
 
 		public Game ResolveGame()
 		{
@@ -23,9 +19,15 @@
 			return new Gun(game, ResolveBullet);
 		}
 
-		public Bullet ResolveBullet()
+		public Player ResolvePlayer()
 		{
-			return new Bullet(game);
+			return new Player(game, ResolveGun());
+		}
+
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
 		}
 	}
 }

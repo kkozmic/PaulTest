@@ -2,28 +2,30 @@
 
 namespace PaulBenchmark
 {
-	public class StructureMap : IPaulTest
+	public class StructureMap : IBenchmark
 	{
 		private readonly Container container;
 
 		public StructureMap()
 		{
-			container = new Container(e=>
+			container = new Container(e =>
 			                          	{
 			                          		e.ForSingletonOf<Game>().Use<Game>();
-											e.For<Player>().Use<Player>();
-											e.For<Gun>().Use<Gun>();
-											e.For<Bullet>().Use<Bullet>();
+			                          		e.For<Player>().Use<Player>();
+			                          		e.For<Gun>().Use<Gun>();
+			                          		e.For<Bullet>().Use<Bullet>();
 			                          	});
 		}
-
-		#region IPaulTest Members
 
 		public Player ResolvePlayer()
 		{
 			return container.GetInstance<Player>();
 		}
 
-		#endregion
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
 	}
 }

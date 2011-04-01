@@ -108,7 +108,7 @@
     <Compile Include="Funq.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Gun.cs" />
-    <Compile Include="IPaulTest.cs" />
+    <Compile Include="IBenchmark.cs" />
     <Compile Include="Linfu.cs" />
     <Compile Include="Mode.cs" />
     <Compile Include="Player.cs" />

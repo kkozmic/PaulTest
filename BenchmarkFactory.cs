@@ -23,7 +23,7 @@ namespace PaulBenchmark
 			var filter = ReadFilters();
 			var results = ReadResultsForm();
 			var output = ReadOutputFile();
-			if(profilingMode == ProfilingMode.Perf)
+			if (profilingMode == ProfilingMode.Perf)
 			{
 				Console.WriteLine("Performance run: {0}\t{1}\t{2}{3}\tresults displayed as {4}",
 				                  mode,
@@ -42,9 +42,29 @@ namespace PaulBenchmark
 			}
 			Console.WriteLine("Memory run: {0} iterations {1}\t{1}\t{2}",
 			                  iterations,
-			                  (memorySnapshotStep.HasValue?"stop every "+memorySnapshotStep.Value:""),
-			                  ((object)filter ?? "no filter"));
+			                  (memorySnapshotStep.HasValue ? "stop every " + memorySnapshotStep.Value : ""),
+			                  ((object) filter ?? "no filter"));
 			return new MemoryBenchmarkEngine(memorySnapshotStep, iterations, filter);
+		}
+
+		private Regex ReadFilters()
+		{
+			var pattern = ReadValue<string>("f");
+			if (pattern == null)
+			{
+				return null;
+			}
+			return new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+		}
+
+		private bool ReadFlag(string name)
+		{
+			return Array.IndexOf(arguments, name) != -1;
+		}
+
+		private int ReadIterationsCount()
+		{
+			return ReadValue("c", defaultIterations);
 		}
 
 		private int? ReadMemorySnapshotStep()
@@ -54,35 +74,6 @@ namespace PaulBenchmark
 				return null;
 			return step;
 		}
-
-		private ProfilingMode ReadProfilingMode()
-		{
-			if(ReadFlag("p"))
-			{
-				return ProfilingMode.Memory;
-			}
-			return ProfilingMode.Perf;
-		}
-
-		private Results ReadResultsForm()
-		{
-			if(ReadFlag("r"))
-			{
-				return Results.Rate_per_second;
-			}
-			return Results.Total_time;
-		}
-
-		private string ReadOutputFile()
-		{
-			return ReadValue<string>("o");
-		}
-
-		private int ReadIterationsCount()
-		{
-			return ReadValue("c", defaultIterations);
-		}
-
 
 		private Mode ReadMode()
 		{
@@ -97,9 +88,27 @@ namespace PaulBenchmark
 			return Mode.Single_threaded;
 		}
 
-		private bool ReadFlag(string name)
+		private string ReadOutputFile()
 		{
-			return Array.IndexOf(arguments, name) != -1;
+			return ReadValue<string>("o");
+		}
+
+		private ProfilingMode ReadProfilingMode()
+		{
+			if (ReadFlag("p"))
+			{
+				return ProfilingMode.Memory;
+			}
+			return ProfilingMode.Perf;
+		}
+
+		private Results ReadResultsForm()
+		{
+			if (ReadFlag("r"))
+			{
+				return Results.Rate_per_second;
+			}
+			return Results.Total_time;
 		}
 
 		private T ReadValue<T>(string name, T defaultValue = default(T))
@@ -120,16 +129,6 @@ namespace PaulBenchmark
 			{
 				return defaultValue;
 			}
-		}
-
-		private Regex ReadFilters()
-		{
-			var pattern = ReadValue<string>("f");
-			if (pattern == null)
-			{
-				return null;
-			}
-			return new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 		}
 	}
 }

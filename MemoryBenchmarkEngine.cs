@@ -18,7 +18,7 @@ namespace PaulBenchmark
 		{
 			Console.WriteLine("Running {0} times", iterations);
 			var tests = GetTestSubjects();
-			if(memorySnapshotStep.HasValue && memorySnapshotStep.Value < iterations)
+			if (memorySnapshotStep.HasValue && memorySnapshotStep.Value < iterations)
 			{
 				Console.WriteLine("...stoping every {0} iterations", memorySnapshotStep.Value);
 				foreach (var paulTest in tests)
@@ -35,13 +35,24 @@ namespace PaulBenchmark
 			}
 		}
 
-		private long RunContinuously(IPaulTest test)
+		private void CollectSnapshot(int i)
+		{
+			Console.WriteLine(" We're {0} out of {1} iterations into the test. Collect your snapshot", i, iterations);
+			Console.ReadLine();
+		}
+
+		private void PrintResult(IBenchmark test)
+		{
+			Console.WriteLine(" Hey {0,-20} - you're done. Collect snapshot and proceed with enter", test.GetType().Name);
+			Console.ReadLine();
+		}
+
+		private long RunContinuously(IBenchmark test)
 		{
 			Console.WriteLine(" Testing {0,-20}", test.GetType().Name);
 			for (var i = 0; i < iterations; i++)
 			{
-				var player = test.ResolvePlayer();
-				player.Shoot();
+				test.Run();
 			}
 			PrintResult(test);
 			var disposable = test as IDisposable;
@@ -52,22 +63,15 @@ namespace PaulBenchmark
 			return 0;
 		}
 
-		private void PrintResult(IPaulTest test)
-		{
-			Console.WriteLine(" Hey {0,-20} - you're done. Collect snapshot and proceed with enter", test.GetType().Name);
-			Console.ReadLine();
-		}
-
-		private long RunWithStop(IPaulTest test)
+		private long RunWithStop(IBenchmark test)
 		{
 			Console.WriteLine(" Testing {0,-20}", test.GetType().Name);
 			var count = 0;
 			for (var i = 0; i < iterations; i++)
 			{
 				count++;
-				var player = test.ResolvePlayer();
-				player.Shoot();
-				if(count ==memorySnapshotStep)
+				test.Run();
+				if (count == memorySnapshotStep)
 				{
 					CollectSnapshot(i);
 					count = 0;
@@ -80,12 +84,6 @@ namespace PaulBenchmark
 				disposable.Dispose();
 			}
 			return 0;
-		}
-
-		private void CollectSnapshot(int i)
-		{
-			Console.WriteLine(" We're {0} out of {1} iterations into the test. Collect your snapshot", i, iterations);
-			Console.ReadLine();
 		}
 	}
 }

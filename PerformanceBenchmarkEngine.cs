@@ -10,9 +10,9 @@ namespace PaulBenchmark
 {
 	public class PerformanceBenchmarkEngine : BenchmarkEngine
 	{
-		private readonly Results results;
-		private readonly Mode mode;
 		private static readonly long oneSecondTicks = TimeSpan.FromSeconds(1).Ticks;
+		private readonly Mode mode;
+		private readonly Results results;
 
 		public PerformanceBenchmarkEngine(Mode mode, int iterations, Regex filter, string outputFile, Results results)
 		{
@@ -58,7 +58,7 @@ namespace PaulBenchmark
 			}
 		}
 
-		private void PrintResult(IPaulTest test, Stopwatch stopwatch)
+		private void PrintResult(IBenchmark test, Stopwatch stopwatch)
 		{
 			if (results == Results.Total_time)
 			{
@@ -67,31 +67,16 @@ namespace PaulBenchmark
 			else
 			{
 				Console.WriteLine(" Hey {0,-20} - you did {1,10} operations per second", test.GetType().Name,
-								  (iterations * oneSecondTicks) / stopwatch.Elapsed.Ticks);
+				                  (iterations*oneSecondTicks)/stopwatch.Elapsed.Ticks);
 			}
 		}
 
-		private long RunThreadBased(IPaulTest test)
+		private long RunSingleThread(IBenchmark test)
 		{
 			var stopwatch = Stopwatch.StartNew();
-			var threads = new Thread[Environment.ProcessorCount];
-			var interval = iterations/threads.Length;
-			for (var i = 0; i < threads.Length; i++)
+			for (var i = 0; i < iterations; i++)
 			{
-				var thread = new Thread(() =>
-				                        	{
-				                        		for (var j = 0; j < interval; j++)
-				                        		{
-				                        			var player = test.ResolvePlayer();
-				                        			player.Shoot();
-				                        		}
-				                        	});
-				threads[i] = thread;
-				thread.Start();
-			}
-			for (var i = 0; i < threads.Length; i++)
-			{
-				threads[i].Join();
+				test.Run();
 			}
 			stopwatch.Stop();
 			PrintResult(test, stopwatch);
@@ -103,17 +88,13 @@ namespace PaulBenchmark
 			return stopwatch.ElapsedMilliseconds;
 		}
 
-		private long RunTaskBased(IPaulTest test)
+		private long RunTaskBased(IBenchmark test)
 		{
 			var stopwatch = Stopwatch.StartNew();
 			var tasks = new Task[iterations];
 			for (var i = 0; i < tasks.Length; i++)
 			{
-				tasks[i] = Task.Factory.StartNew(() =>
-				                                 	{
-				                                 		var player = test.ResolvePlayer();
-				                                 		player.Shoot();
-				                                 	});
+				tasks[i] = Task.Factory.StartNew(test.Run);
 			}
 			Task.WaitAll(tasks);
 			stopwatch.Stop();
@@ -126,13 +107,26 @@ namespace PaulBenchmark
 			return stopwatch.ElapsedMilliseconds;
 		}
 
-		private long RunSingleThread(IPaulTest test)
+		private long RunThreadBased(IBenchmark test)
 		{
 			var stopwatch = Stopwatch.StartNew();
-			for (var i = 0; i < iterations; i++)
+			var threads = new Thread[Environment.ProcessorCount];
+			var interval = iterations/threads.Length;
+			for (var i = 0; i < threads.Length; i++)
 			{
-				var player = test.ResolvePlayer();
-				player.Shoot();
+				var thread = new Thread(() =>
+				                        	{
+				                        		for (var j = 0; j < interval; j++)
+				                        		{
+				                        			test.Run();
+				                        		}
+				                        	});
+				threads[i] = thread;
+				thread.Start();
+			}
+			for (var i = 0; i < threads.Length; i++)
+			{
+				threads[i].Join();
 			}
 			stopwatch.Stop();
 			PrintResult(test, stopwatch);

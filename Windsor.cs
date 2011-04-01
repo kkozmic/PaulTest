@@ -5,7 +5,7 @@ using Castle.Windsor;
 
 namespace PaulBenchmark
 {
-	public class Windsor : IPaulTest
+	public class Windsor : IBenchmark
 	{
 		private readonly IWindsorContainer container;
 
@@ -20,13 +20,15 @@ namespace PaulBenchmark
 				          Component.For<Func<Bullet>>().AsFactory());
 		}
 
-		#region IPaulTest Members
-
 		public Player ResolvePlayer()
 		{
 			return container.Resolve<Player>();
 		}
 
-		#endregion
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
 	}
 }

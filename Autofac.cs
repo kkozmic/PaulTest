@@ -2,7 +2,7 @@
 
 namespace PaulBenchmark
 {
-	public class Autofac : IPaulTest
+	public class Autofac : IBenchmark
 	{
 		private readonly IContainer container;
 
@@ -17,13 +17,15 @@ namespace PaulBenchmark
 			container = builder.Build();
 		}
 
-		#region IPaulTest Members
-
 		public Player ResolvePlayer()
 		{
 			return container.Resolve<Player>();
 		}
 
-		#endregion
+		public void Run()
+		{
+			var player = ResolvePlayer();
+			player.Shoot();
+		}
 	}
 }

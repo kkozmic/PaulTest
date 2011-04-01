@@ -4,15 +4,53 @@ using System.Text.RegularExpressions;
 
 namespace PaulBenchmark
 {
-	public abstract class BenchmarkEngine:IDisposable
+	public abstract class BenchmarkEngine : IDisposable
 	{
-		protected TextWriter output = TextWriter.Null;
 		protected Regex filter;
 		protected int iterations;
+		protected TextWriter output = TextWriter.Null;
 
-		protected static IPaulTest[] GetTestSubjects()
+		protected abstract void Go();
+
+		public void Run()
 		{
-			return new IPaulTest[]
+			Warmup();
+			Go();
+		}
+
+		public virtual void Dispose()
+		{
+			if (output != null)
+			{
+				output.WriteLine();
+				output.Dispose();
+				output = null;
+			}
+		}
+
+		protected void Run(IBenchmark benchmark, Func<IBenchmark, long> function)
+		{
+			if (ShouldRun(filter, benchmark))
+			{
+				output.Write(function(benchmark) + "\t");
+			}
+			else
+			{
+				output.Write("0\t");
+			}
+		}
+
+		private void Warmup()
+		{
+			foreach (var benchmark in GetTestSubjects())
+			{
+				benchmark.Run();
+			}
+		}
+
+		protected static IBenchmark[] GetTestSubjects()
+		{
+			return new IBenchmark[]
 			       	{
 			       		new CustomContainer(),
 			       		new Windsor(),
@@ -28,51 +66,12 @@ namespace PaulBenchmark
 			       	};
 		}
 
-		public void Run()
-		{
-			Warmup();
-			Go();
-		}
-
-		protected abstract void Go();
-
-		protected void Run(IPaulTest paulTest, Func<IPaulTest, long> function)
-		{
-			if (ShouldRun(filter, paulTest))
-			{
-				output.Write(function(paulTest) + "\t");
-			}
-			else
-			{
-				output.Write("0\t");
-			}
-		}
-
-		private static bool ShouldRun(Regex filter, IPaulTest paulTest)
+		private static bool ShouldRun(Regex filter, IBenchmark benchmark)
 		{
 			if (filter == null) return true;
-			var name = paulTest.GetType().Name;
+			var name = benchmark.GetType().Name;
 			var shouldRun = filter.IsMatch(name);
 			return shouldRun;
-		}
-
-		private void Warmup()
-		{
-			foreach (var paulTest in GetTestSubjects())
-			{
-				var player = paulTest.ResolvePlayer();
-				player.Shoot();
-			}
-		}
-
-		public virtual void Dispose()
-		{
-			if (output != null)
-			{
-				output.WriteLine();
-				output.Dispose();
-				output = null;
-			}
 		}
 	}
 }
