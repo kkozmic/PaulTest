@@ -122,6 +122,7 @@
     <Compile Include="PaulBenchmarks\Windsor.cs" />
     <Compile Include="PaulBenchmarks\Windsor_delegates.cs" />
     <Compile Include="TurbineBenchmarks\Autofac_Turbine.cs" />
+    <Compile Include="TurbineBenchmarks\Unity_Turbine.cs" />
     <Compile Include="TurbineBenchmarks\Windsor_Turbine.cs" />
     <Compile Include="TurbineModel\Alfalfa.cs" />
     <Compile Include="TurbineModel\Avocado.cs" />
